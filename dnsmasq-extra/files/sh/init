@@ -22,6 +22,7 @@ SSDNS="127.0.0.1#$( uci_get_by_type shadowsocks   port_forward  local_port  5300
 SSRDNS="127.0.0.1#$(uci_get_by_type shadowsocksr  port_forward  local_port  5300)"
 CHDNS="127.0.0.1#$(uci_get_by_type  chinadns      chinadns      port        7300)"
 DNSCPT="127.0.0.1#$(uci_get_by_type dnscrypt      dnscrypt      port        7400)"
+DNSFORWARDER="127.0.0.1#$(uci_get_by_type dns-forwarder      dns-forwarder      listen_port        5300)"
 BLOCK=0.0.0.0
 DNSMASQDIR=/var/dnsmasq.d
 IPSETDIR=/etc/dnsmasq-extra.d
@@ -49,6 +50,9 @@ start() {
 
 	[ -x /usr/bin/ssr-tunnel ] && [ "Z$(uci_get_by_type shadowsocksr port_forward server)" != 'Znil' ] &&
 		echo -n "SSRDNS, " && ( sed "s/^/server=\//;s/$/\/${SSRDNS}/" $IPSETDIR/gfwlist $IPSETDIR/tldn > $DNSMASQDIR/ssrdns.conf )
+	[ -x /usr/bin/dns-forwarder ] && [ "Z$(uci_get_by_type dns-forwarder dns_forwarder enable)" != 'Z0' ] && 
+		echo -n "DNS-FORWARDER, " && ( sed "s/^/server=\//;s/$/\/${DNSFORWARDER}/" $IPSETDIR/gfwlist $IPSETDIR/tldn > $DNSMASQDIR/dnsforwarder.conf )
+
 
 	[ 0 -lt $(sed -n '/wan_bp_list/p' /etc/config/shadowsocks* 2>/dev/null | grep -c 'chnroute') ] &&
 		echo -n "IPSET:ss(r)_bp for chnroute, " && {
