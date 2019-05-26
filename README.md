@@ -29,7 +29,7 @@
 
 ### dnscrypt@7400 with multidns/tls
 
-### chinadns@7300 with multidns/udp
+### chinadns@7300 with multidns/udp (NOT Recommended)
 
 Upstream DNS for ChinaDNS:
 - ```cdns@730X with multidns/udp```
@@ -39,7 +39,6 @@ Upstream DNS for ChinaDNS:
 ### dnsmasq-extra
 
  - dnsmasq for adblock
- - dnsmasq/ipset for koolproxy
  - dnsmasq/ipset for dnscrypt/chinadns/ss(r)-tunnel
 
   [S]: https://wiki.openwrt.org/doc/howto/obtain.firmware.sdk
